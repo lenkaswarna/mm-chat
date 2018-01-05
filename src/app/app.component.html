@@ -8,22 +8,18 @@
                     </div>
                 </form>
             </div>
-            <div class="row">
-                <ul>
-                    <li *ngFor="let group of groups">
-                        <div class="col col-3">
-                            <img class="img-sm" src="{{group.picture}}" alt="Display picture" />
-                        </div>
-                        <div class="col" style="margin:10px;">
-                            <div class="row name">
-                                {{group.name}}
-                            </div>
-                            <div class="row status">
-                                {{group.description}}
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+            <div class="row" *ngFor="let group of groups">
+                <div class="col col-3">
+                    <img class="img-sm" src="{{group.picture}}" alt="Display picture" />
+                </div>
+                <div class="col" style="margin:10px;">
+                    <div class="row name">
+                        {{group.name}}
+                    </div>
+                    <div class="row status">
+                        {{group.description}}
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col col-9 messageBox">
@@ -42,10 +38,13 @@
                 </div>
             </div>
             <div class="row">
-                <form>
+                <form novalidate [formGroup]="message" (ngSubmit)="sendMessage(message)">
                     <div class="form-group">
-                        <textarea class="form-control" id="message" rows="3" cols="120" placeholder="Type your message..."></textarea>
+                        <div class="input-group">
+                            <textarea class="form-control" formControlName="text" rows="3" cols="120" placeholder="Type your message..."></textarea>
+                        </div>
                     </div>
+                    <button type="submit" class="btn btn-primary" [disabled]="message.invalid">Submit</button>
                 </form>
             </div>
         </div>
