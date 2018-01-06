@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Group } from './interfaces/group';
 import { Message } from './interfaces/message';
 import { User } from './interfaces/user';
+import * as io from 'socket.io-client';
 
 @Component({
   selector: 'app-root',
@@ -69,6 +70,10 @@ export class AppComponent {
     }
   ];
   private messages: Message[] = [];
-  constructor() {
+  // private socket;
+  constructor( ) {
+    const socket = io('http://localhost:3000/');
+    //skt.on('connect', this.onConnect);
   }
+
 }
