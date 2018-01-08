@@ -21,7 +21,8 @@ export class GroupService {
 
   /** GET groups from the server */
   getGroups (): Observable<Group[]> {
-    return this.http.get<Group[]>(`${this.groupUrl}getAllGroupClones`)
+    const userId = 1;
+    return this.http.get<Group[]>(`${this.groupUrl}getGroups/user/${userId}/groups`)
       .pipe(
           map(groups => groups),
           tap(groups => console.log(groups)),
@@ -33,7 +34,7 @@ export class GroupService {
 
   /** POST: add a new group to the server */
   createGroup (group: Group): Observable<Group> {
-    return this.http.post<Group>(`${this.groupUrl}createGroupClone`, group, httpOptions).pipe(
+    return this.http.post<Group>(`${this.groupUrl}createGroup`, group, httpOptions).pipe(
       map(grp => grp),
       catchError(this.handleError<Group>('createGroup'))
     );

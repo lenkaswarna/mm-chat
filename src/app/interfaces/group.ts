@@ -1,5 +1,5 @@
 export class Group {
-    id: any; // group id
+    id: number; // group id
     name: string; // group name
     url: string; // group url
     description: string; // description of the group

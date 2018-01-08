@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     this.getMessage();
     this.getGroup();
     this.message = this.fb.group({
-      id: Date.now(), // message id
+      _id: null, // message id
       receiverId: [''],
       receiverType: ['group'], // group or individual
       senderId: [''],
