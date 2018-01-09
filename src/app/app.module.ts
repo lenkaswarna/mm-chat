@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ChatService } from './chat.service';
 import { GroupService } from './group.service';
+import {SocketService} from './socket.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { GroupService } from './group.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [ChatService, GroupService],
+  providers: [ChatService, GroupService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

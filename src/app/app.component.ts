@@ -5,6 +5,7 @@ import { Message } from './interfaces/message';
 import { User } from './interfaces/user';
 import { ChatService } from './chat.service';
 import { GroupService } from './group.service';
+import {SocketService} from './socket.service';
 
 @Component({
   selector: 'app-root',
@@ -20,8 +21,10 @@ export class AppComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private chatService: ChatService,
-    private groupService: GroupService
+    private groupService: GroupService,
+    private socketService: SocketService
   ) {
+    this.socketService.socketConnection();
   }
 
   ngOnInit(): void {
@@ -60,6 +63,7 @@ export class AppComponent implements OnInit {
     } else {
       this.chatService.sendMessage(value)
       .subscribe(msg => { this.messages.push(msg); console.log(msg); });
+      this.socketService.sendMessage(value);
     }
   }
 
