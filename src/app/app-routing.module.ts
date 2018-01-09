@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { ChatComponent } from './chat/chat.component';
+import { AppComponent } from './app.component';
+
+const routes: Routes = [
+  { path: '', redirectTo: '/', pathMatch: 'full' },
+  { path: 'chat/:id', component: ChatComponent }
+];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot([
-    ])
+    RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]
 })
