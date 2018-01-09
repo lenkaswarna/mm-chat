@@ -8,13 +8,9 @@ export class SocketService {
     constructor() {
     }
     socketConnection() {}
-    //for sending a message
+    // for sending a message
     sendMessage(message: Message) {
     socket.io(message.receiverId).emit('send-message', message);
     }
-    //when a user 1st time join a group
-    userJoin() {
-
-    }
-
+    // when a user 1st time join a group
  }
