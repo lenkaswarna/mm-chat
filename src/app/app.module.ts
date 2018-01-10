@@ -4,14 +4,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
+import { ChatComponent } from './chat/chat.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ChatService } from './chat.service';
 import { GroupService } from './group.service';
 import {SocketService} from './socket.service';
+import { UserService } from './user.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
@@ -20,7 +23,7 @@ import {SocketService} from './socket.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [ChatService, GroupService, SocketService],
+  providers: [ChatService, GroupService, SocketService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

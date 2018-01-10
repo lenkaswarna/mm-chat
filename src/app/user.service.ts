@@ -5,37 +5,38 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Group } from './interfaces/group';
+import { User } from './interfaces/user';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable()
-export class GroupService {
+export class UserService {
 
-  private groupUrl = 'http://localhost:3000/group/controllers/';  // URL to server
+  private userUrl = 'http://localhost:3000/user/controllers/';  // URL to server
 
   constructor(
     private http: HttpClient) { }
 
-  /** GET groups from the server */
-  getGroups (userId): Observable<Group[]> {
-    return this.http.get<Group[]>(`${this.groupUrl}getGroups/user/${userId}/groups`)
+  /** GET users from the server */
+  getUsers (): Observable<User[]> {
+    const userId = 1;
+    return this.http.get<User[]>(`${this.userUrl}getUsers`)
       .pipe(
-          map(groups => groups),
-          tap(groups => console.log(groups)),
-        catchError(this.handleError('getGroups', []))
+          map(users => users),
+          tap(users => console.log(users)),
+        catchError(this.handleError('getUsers', []))
       );
   }
 
   //////// Save methods //////////
 
-  /** POST: add a new group to the server */
-  createGroup (group: Group): Observable<Group> {
-    return this.http.post<Group>(`${this.groupUrl}createGroup`, group, httpOptions).pipe(
-      map(grp => grp),
-      catchError(this.handleError<Group>('createGroup'))
+  /** POST: add a new user to the server */
+  createUser (user: User): Observable<User> {
+    return this.http.post<User>(`${this.userUrl}createdUser`, user, httpOptions).pipe(
+      map(usr => usr),
+      catchError(this.handleError<User>('createUser'))
     );
   }
 

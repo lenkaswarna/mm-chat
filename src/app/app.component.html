@@ -1,52 +1,13 @@
 <div class="container">
     <div class="row">
-        <div class="col col-3 list">
-            <div class="row">
-                <form>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="search" aria-describedby="search" placeholder="Search">
-                    </div>
-                </form>
-            </div>
-            <div class="row" *ngFor="let group of groups">
-                <div class="col col-3">
-                    <img class="img-sm" src="{{group.picture}}" alt="Display picture" />
-                </div>
-                <div class="col" style="margin:10px;">
-                    <div class="row name">
-                        {{group.name}}
-                    </div>
-                    <div class="row status">
-                        {{group.description}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col col-9 messageBox">
-            <div class="row title">
-                <div class="col col-2">
-                    <img class="img-lg" src="http://www.onsiteinspecting.com/wp-content/uploads/2016/02/male-user.png" alt="Display picture" />
-                </div>
-                <div class="col col-10">
-                    <div class="row">selectedGroupName</div>
-                    <div class="row">No. of messages</div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="container" *ngFor="let message of messages">
-                    {{message.text}}
-                </div>
-            </div>
-            <div class="row">
-                <form novalidate [formGroup]="message" (ngSubmit)="sendMessage(message)">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <textarea class="form-control" formControlName="text" rows="3" cols="120" placeholder="Type your message..."></textarea>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary" [disabled]="message.invalid">Submit</button>
-                </form>
-            </div>
-        </div>
+        <ul class="nav" id="userList">
+            <li class="nav-item" *ngFor="let user of users">
+                <a class="nav-link active" routerLink="/chat/{{user.id}}" (click)="hideList();">
+                    <span>{{user.name}}</span>
+                </a>
+            </li>
+        </ul>
+        <a id="logout" routerLink='/' (click)="showList()">Logout</a>
     </div>
 </div>
+<router-outlet></router-outlet>

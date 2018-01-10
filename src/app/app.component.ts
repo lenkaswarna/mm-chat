@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { Group } from './interfaces/group';
-import { Message } from './interfaces/message';
 import { User } from './interfaces/user';
 import { ChatService } from './chat.service';
 import { GroupService } from './group.service';
 import {SocketService} from './socket.service';
-
+import { FormBuilder, Validators } from '@angular/forms';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -15,61 +13,32 @@ import {SocketService} from './socket.service';
 })
 export class AppComponent implements OnInit {
 
-  private groups: Group[] = [];
   private users: User[] = [];
-  private messages: Message[] = [];
-  private message: FormGroup;
   constructor(
     private fb: FormBuilder,
     private chatService: ChatService,
     private groupService: GroupService,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private userService: UserService
   ) {
   }
 
   ngOnInit(): void {
-    this.getMessage();
-    this.getGroup();
-    this.message = this.fb.group({
-      _id: null, // message id
-      receiverId: [''],
-      receiverType: ['group'], // group or individual
-      senderId: [''],
-      picUrl: [''], // image of the sender or receiver
-      text: [''], // message data
-      type: ['text'], // type of the message(checkbox, radio, image, video, etc)
-      status: ['delivered'], // delivered, read, not-delivered
-      contentType: [''], // for radio, checkbox and slider
-      contentData: {
-        data: [''] // for radio, checkbox and slider
-      },
-      responseData: {
-        data: [''] // for radio, checkbox and slider
-      },
-      lastUpdateTime: Date.now()
-    });
-   // this.socketService.reciveMessages(this.message);
+    this.getUser();
   }
 
-  getMessage() {
-    this.chatService.getMessages()
-    .subscribe(msg => this.messages = msg);
+  getUser() {
+    this.userService.getUsers()
+    .subscribe(users => this.users = users);
   }
 
-  getGroup() {
-    this.groupService.getGroups()
-    .subscribe(groups => this.groups = groups);
+  hideList() {
+    document.getElementById('userList').style.display = 'none';
+    document.getElementById('logout').style.display = 'block';
   }
 
-  sendMessage({ value, valid }: { value: Message, valid: boolean }): void {
-    const result = JSON.stringify(value);
-    console.log(result);
-    if (!result) {
-      return;
-    } else {
-      this.chatService.sendMessage(value)
-      .subscribe(msg => { this.messages.push(msg); console.log(msg); });
-      this.socketService.sendMessage(value);
-    }
+  showList() {
+    document.getElementById('userList').style.display = 'block';
+    document.getElementById('logout').style.display = 'none';
   }
- }
+}
