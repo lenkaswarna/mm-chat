@@ -23,4 +23,14 @@ export class AppComponent implements OnInit {
     this.userService.getUsers()
     .subscribe(users => this.users = users);
   }
+
+  hideList() {
+    document.getElementById('userList').style.display = 'none';
+    document.getElementById('logout').style.display = 'block';
+  }
+
+  showList() {
+    document.getElementById('userList').style.display = 'block';
+    document.getElementById('logout').style.display = 'none';
+  }
 }

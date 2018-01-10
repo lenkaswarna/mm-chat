@@ -20,8 +20,7 @@ export class GroupService {
     private http: HttpClient) { }
 
   /** GET groups from the server */
-  getGroups (): Observable<Group[]> {
-    const userId = 1;
+  getGroups (userId): Observable<Group[]> {
     return this.http.get<Group[]>(`${this.groupUrl}getGroups/user/${userId}/groups`)
       .pipe(
           map(groups => groups),

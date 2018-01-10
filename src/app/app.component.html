@@ -1,12 +1,13 @@
 <div class="container">
     <div class="row">
-        <ul class="nav">
+        <ul class="nav" id="userList">
             <li class="nav-item" *ngFor="let user of users">
-                <a class="nav-link active" routerLink="/chat/user/{{user.id}}">
+                <a class="nav-link active" routerLink="/chat/{{user.id}}" (click)="hideList();">
                     <span>{{user.name}}</span>
                 </a>
             </li>
         </ul>
+        <a id="logout" routerLink='/' (click)="showList()">Logout</a>
     </div>
 </div>
 <router-outlet></router-outlet>

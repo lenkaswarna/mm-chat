@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Group } from '../interfaces/group';
 import { Message } from '../interfaces/message';
@@ -13,6 +15,7 @@ import { GroupService } from '../group.service';
 })
 export class ChatComponent implements OnInit {
 
+  @Input() user: User;
   private groups: Group[] = [];
   private users: User[] = [];
   private messages: Message[] = [];
@@ -20,7 +23,9 @@ export class ChatComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private chatService: ChatService,
-    private groupService: GroupService
+    private groupService: GroupService,
+    private route: ActivatedRoute,
+    private location: Location
   ) {
   }
 
@@ -64,7 +69,8 @@ export class ChatComponent implements OnInit {
   }
 
   getGroup() {
-    this.groupService.getGroups()
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.groupService.getGroups(id)
     .subscribe(groups => this.groups = groups);
   }
 }
