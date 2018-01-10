@@ -1,5 +1,5 @@
 export class Message {
-    id: any; // message id
+    _id: any; // message id
     receiverId: string;
     receiverType: string; // group or individual
     senderId: string;
