@@ -30,7 +30,6 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getMessage();
     this.getGroup();
     this.message = this.fb.group({
       _id: null, // message id
@@ -52,11 +51,6 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  getMessage() {
-    this.chatService.getMessages()
-    .subscribe(msg => this.messages = msg);
-  }
-
   sendMessage({ value, valid }: { value: Message, valid: boolean }): void {
     const result = JSON.stringify(value);
     console.log(result);
@@ -69,8 +63,16 @@ export class ChatComponent implements OnInit {
   }
 
   getGroup() {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.groupService.getGroups(id)
+    const userId = +this.route.snapshot.paramMap.get('userId');
+    this.groupService.getGroups(userId)
     .subscribe(groups => this.groups = groups);
+  }
+
+  getMessage(groupId) {
+    const userId = +this.route.snapshot.paramMap.get('userId');
+    const offset = 0;
+    const size = 5;
+    this.chatService.getMessages(userId, groupId, offset, size)
+    .subscribe(msg => this.messages = msg);
   }
 }

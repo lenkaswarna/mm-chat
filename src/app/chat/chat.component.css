@@ -46,3 +46,8 @@ form {
 textarea {
     resize: none;
 }
+
+.groupSelect :hover {
+    background-color: #000;
+    cursor: pointer;
+}
