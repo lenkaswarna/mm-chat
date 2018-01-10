@@ -20,6 +20,7 @@ export class ChatComponent implements OnInit {
   private users: User[] = [];
   private messages: Message[] = [];
   private message: FormGroup;
+  private groupId: number;
   constructor(
     private fb: FormBuilder,
     private chatService: ChatService,
@@ -53,6 +54,10 @@ export class ChatComponent implements OnInit {
 
   sendMessage({ value, valid }: { value: Message, valid: boolean }): void {
     const result = JSON.stringify(value);
+    const userId = +this.route.snapshot.paramMap.get('userId');
+    const groupId = this.getGroupId();
+    value.receiverId = groupId;
+    value.senderId = userId;
     console.log(result);
     if (!result) {
       return;
@@ -60,6 +65,7 @@ export class ChatComponent implements OnInit {
       this.chatService.sendMessage(value)
       .subscribe(msg => { this.messages.push(msg); console.log(msg); });
     }
+    document.getElementById('textarea').innerHTML = '';
   }
 
   getGroup() {
@@ -69,10 +75,19 @@ export class ChatComponent implements OnInit {
   }
 
   getMessage(groupId) {
+    this.setGroupId(groupId);
     const userId = +this.route.snapshot.paramMap.get('userId');
     const offset = 0;
     const size = 5;
     this.chatService.getMessages(userId, groupId, offset, size)
     .subscribe(msg => this.messages = msg);
+  }
+
+  setGroupId(groupId) {
+    this.groupId = groupId;
+  }
+
+  getGroupId() {
+    return this.groupId;
   }
 }

@@ -1,8 +1,8 @@
 export class Message {
     _id: any; // message id
-    receiverId: string;
+    receiverId: number;
     receiverType: string; // group or individual
-    senderId: string;
+    senderId: number;
     picUrl: string; // image of the sender or receiver
     text: string; // message data
     type: string; // type of the message(checkbox, radio, image, video, etc)
