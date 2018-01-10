@@ -8,13 +8,13 @@
                     </div>
                 </form>
             </div>
-            <div class="row" *ngFor="let group of groups">
+            <div class="row groupSelect" *ngFor="let group of groups" (click)="getMessage(group.id)">
                 <div class="col col-3">
                     <img class="img-sm" src="{{group.picture}}" alt="Display picture" />
                 </div>
                 <div class="col" style="margin:10px;">
                     <div class="row name">
-                        {{group.name}}
+                        <span>{{group.name}}</span>
                     </div>
                     <div class="row status">
                         {{group.description}}
@@ -41,7 +41,7 @@
                 <form novalidate [formGroup]="message" (ngSubmit)="sendMessage(message)">
                     <div class="form-group">
                         <div class="input-group">
-                            <textarea class="form-control" formControlName="text" rows="3" cols="120" placeholder="Type your message..."></textarea>
+                            <textarea id="textarea" class="form-control" formControlName="text" rows="3" cols="120" placeholder="Type your message..."></textarea>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary" [disabled]="message.invalid">Submit</button>

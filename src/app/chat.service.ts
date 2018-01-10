@@ -20,19 +20,21 @@ export class ChatService {
     private http: HttpClient) { }
 
   /** GET messages from the server */
-  getMessages (): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.messageUrl}getMessage`)
+  getMessages(userId, groupId, offset, size): Observable<Message[]> {
+    return this.http.get<Message[]>(
+      `${this.messageUrl}getLimitedMessages/user/${userId}/groups/${groupId}/messages?offset=${offset}&size=${size}`
+    )
       .pipe(
-          map(messages => messages),
-          tap(messages => console.log(messages)),
-        catchError(this.handleError('getMessages', []))
+      map(messages => messages),
+      tap(messages => console.log(messages)),
+      catchError(this.handleError('getMessages', []))
       );
   }
 
   //////// Save methods //////////
 
   /** POST: add a new message to the server */
-  sendMessage (message: Message): Observable<Message> {
+  sendMessage(message: Message): Observable<Message> {
     return this.http.post<Message>(`${this.messageUrl}sendMessage`, message, httpOptions).pipe(
       map(msg => msg),
       catchError(this.handleError<Message>('sendMessage'))
@@ -45,7 +47,7 @@ export class ChatService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
