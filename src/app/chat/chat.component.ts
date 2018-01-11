@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, HostListener, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DOCUMENT } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Group } from '../interfaces/group';
@@ -7,6 +8,7 @@ import { Message } from '../interfaces/message';
 import { User } from '../interfaces/user';
 import { ChatService } from '../chat.service';
 import { GroupService } from '../group.service';
+import { WINDOW } from '../window.service';
 
 @Component({
   selector: 'app-chat',
@@ -26,12 +28,15 @@ export class ChatComponent implements OnInit {
     private chatService: ChatService,
     private groupService: GroupService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(WINDOW) private window: Window
   ) {
   }
 
   ngOnInit(): void {
     this.getGroup();
+    this.onWindowScroll();
     this.message = this.fb.group({
       _id: null, // message id
       receiverId: [''],
@@ -89,5 +94,11 @@ export class ChatComponent implements OnInit {
 
   getGroupId() {
     return this.groupId;
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const offset = this.window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
+    console.log(offset);
   }
 }
