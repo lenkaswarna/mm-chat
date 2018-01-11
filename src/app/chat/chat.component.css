@@ -1,10 +1,21 @@
 .list {
     background-color: #444753;
     overflow: auto;
+    display: block;
+}
+
+.chatBox {
+    background-color: #F2F5F8;
 }
 
 .messageBox {
-    background-color: #F2F5F8;
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: #FFF;
+    width: 100%;
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 form {
@@ -48,6 +59,5 @@ textarea {
 }
 
 .groupSelect :hover {
-    background-color: #000;
     cursor: pointer;
 }

@@ -78,9 +78,9 @@ export class ChatComponent implements OnInit {
     this.setGroupId(groupId);
     const userId = +this.route.snapshot.paramMap.get('userId');
     const offset = 0;
-    const size = 5;
+    const size = 20;
     this.chatService.getMessages(userId, groupId, offset, size)
-    .subscribe(msg => this.messages = msg);
+    .subscribe(msg => this.messages = msg.reverse());
   }
 
   setGroupId(groupId) {

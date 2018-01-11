@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="col col-9 messageBox">
+        <div class="col col-9 chatBox">
             <div class="row title">
                 <div class="col col-2">
                     <img class="img-lg" src="http://www.onsiteinspecting.com/wp-content/uploads/2016/02/male-user.png" alt="Display picture" />
@@ -32,9 +32,9 @@
                     <div class="row">No. of messages</div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row messageBox">
                 <div class="container" *ngFor="let message of messages">
-                    {{message.text}}
+                    <p>{{message.text}}</p>
                 </div>
             </div>
             <div class="row">
