@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from './interfaces/user';
-import { ChatService } from './chat.service';
-import { GroupService } from './group.service';
-import {SocketService} from './socket.service';
-import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from './user.service';
 
 @Component({
@@ -15,17 +11,12 @@ export class AppComponent implements OnInit {
 
   private users: User[] = [];
   constructor(
-    private fb: FormBuilder,
-    private chatService: ChatService,
-    private groupService: GroupService,
-    private socketService: SocketService,
     private userService: UserService
   ) {
   }
 
   ngOnInit(): void {
     this.getUser();
-    //this.socketService.sendMessage(message);
   }
 
   getUser() {
