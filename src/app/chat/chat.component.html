@@ -8,7 +8,7 @@
                     </div>
                 </form>
             </div>
-            <div class="row groupSelect" *ngFor="let group of groups" (click)="getMessage(group.id)">
+            <div class="row groupSelect" *ngFor="let group of groups" (click)="getMessage(group.id,0)">
                 <div class="col col-3">
                     <img class="img-sm" src="{{group.picture}}" alt="Display picture" />
                 </div>
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="col col-9 messageBox">
+        <div class="col col-9 chatBox">
             <div class="row title">
                 <div class="col col-2">
                     <img class="img-lg" src="http://www.onsiteinspecting.com/wp-content/uploads/2016/02/male-user.png" alt="Display picture" />
@@ -39,21 +39,22 @@
                 <!--div *ngFor="let group od groups">
                     {{group}}
                 </div-->
-                <div class="container" *ngFor="let message of messages">
-                    {{message.text}}
-                </div>
-                <div></div>
-            </div>
-            <div class="row">
-                <form novalidate [formGroup]="message" (ngSubmit)="sendMessage(message)">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <textarea id="textarea" class="form-control" formControlName="text" rows="3" cols="120" placeholder="Type your message..."></textarea>
-                        </div>
+                <div class="row messageBox" id="messageBox" (scroll)="onScroll($event)">
+                    <div class="container" *ngFor="let message of messages">
+                        <p>{{message.text}}</p>
                     </div>
-                    <button type="submit" class="btn btn-primary" [disabled]="message.invalid">Submit</button>
-                </form>
+                    <div></div>
+                </div>
+                <div class="row">
+                    <form novalidate [formGroup]="message" (ngSubmit)="sendMessage(message)">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <textarea id="textarea" class="form-control" formControlName="text" rows="3" cols="120" placeholder="Type your message..."></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" [disabled]="message.invalid">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>

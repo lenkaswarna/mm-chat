@@ -15,11 +15,20 @@ const httpOptions = {
 @Injectable()
 export class ChatService {
 
+  private groupId;
   private messageUrl = 'http://localhost:3000/message/controllers/';  // URL to server
 
   constructor(
     private http: HttpClient) {
 
+    }
+
+    setGroupId(groupId) {
+      this.groupId = groupId;
+    }
+
+    getGroupId() {
+      return this.groupId;
     }
 
   /** GET messages from the server */
