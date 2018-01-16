@@ -6,7 +6,6 @@ import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Message } from './interfaces/message';
-import {SocketService} from './socket.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,9 +18,7 @@ export class ChatService {
   private messageUrl = 'http://localhost:3000/message/controllers/';  // URL to server
 
   constructor(
-    private http: HttpClient) {
-
-    }
+    private http: HttpClient) { }
 
     setGroupId(groupId) {
       this.groupId = groupId;
@@ -69,11 +66,4 @@ export class ChatService {
       return of(result as T);
     };
   }
-  // check the userSession
- /* public userNameCheck(userId) {
-    return this.http.post(`${this.messageUrl}usernameCheck`, JSON.stringify(userId), this. httpOptions)
-      .pipe( map(userId => userId),
-      .catchError(this.handleError('getUserId', []))
-  };*/
-
 }
