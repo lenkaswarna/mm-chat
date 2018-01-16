@@ -32,21 +32,29 @@
                     <div class="row">No. of messages</div>
                 </div>
             </div>
-            <div class="row messageBox" id="messageBox" (scroll)="onScroll($event)">
-                <div class="container" *ngFor="let message of messages">
-                    <p>{{message.text}}</p>
-                </div>
-            </div>
             <div class="row">
-                <form novalidate [formGroup]="message" (ngSubmit)="sendMessage(message)">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <textarea id="textarea" class="form-control" formControlName="text" rows="3" cols="120" placeholder="Type your message..."></textarea>
-                        </div>
+                <div *ngFor="let newUser of newUsers">
+                    {{newUser}}
+                </div>
+                <!--div *ngFor="let group od groups">
+                    {{group}}
+                </div-->
+                <div class="row messageBox" id="messageBox" (scroll)="onScroll($event)">
+                    <div class="container" *ngFor="let message of messages">
+                        <p>{{message.text}}</p>
                     </div>
-                    <button type="submit" class="btn btn-primary" [disabled]="message.invalid">Submit</button>
-                </form>
+                    <div></div>
+                </div>
+                <div class="row">
+                    <form novalidate [formGroup]="message" (ngSubmit)="sendMessage(message)">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <textarea id="textarea" class="form-control" formControlName="text" rows="3" cols="120" placeholder="Type your message..."></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" [disabled]="message.invalid">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>

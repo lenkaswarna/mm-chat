@@ -7,6 +7,7 @@ import { Message } from '../interfaces/message';
 import { User } from '../interfaces/user';
 import { ChatService } from '../chat.service';
 import { GroupService } from '../group.service';
+import { SocketService } from '../socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -16,18 +17,26 @@ import { GroupService } from '../group.service';
 export class ChatComponent implements OnInit, AfterViewChecked {
 
   @Input() user: User;
+  private newUsers = [];
   private groups: Group[] = [];
   private users: User[] = [];
   private messages: Message[] = [];
   private message: FormGroup;
+  private groupId: number;
+  private typingTimerLength= 500;
+  private typing = false ;
+  private lastTypingTime;
+  private typingTimer;
+  private timeDiff;
   private oldGroupId = 1;
   private offset = 0;
   constructor(
     private fb: FormBuilder,
     private chatService: ChatService,
     private groupService: GroupService,
+    private socketService: SocketService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
   ) {
   }
 
@@ -55,8 +64,38 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       },
       lastUpdateTime: Date.now()
     });
+    // this.socketService.reciveMessages(message);
   }
 
+ /* onkeydown(event) {
+    if (!(event.ctrlKey || event.metaKey || event.altKey)) {
+        // $currentInput.focus();
+        if (event == 13) {
+            if (userId) {
+             this.socketService.stopeTyping();
+              this.typing = false;
+            }else {
+               console.log('this is not a vlid id');
+            }
+
+        }
+      }
+   }
+   onKey(event) {
+     if ( !this.typing) {
+       this.typing = true;
+      this.socketService.typing();
+     }
+     this.lastTypingTime = (new Date()).getTime();
+     setTimeout(function(){
+      this.typingTimer = (new Date()).getTime();
+      this.timeDiff = this.lastTypingTime - this.typingTimer;
+      if (this.timeDiff >= this.typingTimerLength && this.typing) {
+        this.socketService.stopeTyping();
+        this.typing = false;
+      }
+     }, this.typingTimerLength);
+   }*/
   ngAfterViewChecked() {
     // this.scrollToBottom();
   }
@@ -71,28 +110,38 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     if (!result) {
       return;
     } else {
+     // this.messages.push(value);
       this.chatService.sendMessage(value)
         .subscribe(msg => { this.messages.push(msg); console.log(msg); });
+        this.socketService.sendMessage(value);
     }
     this.message.reset();
   }
 
   getGroup() {
     const userId = +this.route.snapshot.paramMap.get('userId');
+    if (userId == null) {
+      console.log('give correct userdetails');
+    } else {
+      // connecting to socket service.
+      this.socketService.connSocket(userId);
     this.groupService.getGroups(userId)
       .subscribe(groups => this.groups = groups);
   }
+}
 
   getMessage(groupId) {
     this.chatService.setGroupId(groupId);
     const userId = +this.route.snapshot.paramMap.get('userId');
-    const size = 20;
+    const size = 5;
     if (this.oldGroupId === groupId) {
       this.chatService.getMessages(userId, groupId, this.offset, size)
         .subscribe((msg) => {
           msg.reverse().map((message) => {
             this.messages.push(message);
           });
+          this.socketService.joinGroup(groupId);
+      this.socketService.getMessages();
         });
     } else {
       this.messages = [];
@@ -103,6 +152,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
           msg.reverse().map((message) => {
             this.messages.push(message);
           });
+          this.socketService.joinGroup(groupId);
+      this.socketService.getMessages();
         });
     }
   }
