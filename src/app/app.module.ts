@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { ChatService } from './chat.service';
 import { GroupService } from './group.service';
 import { UserService } from './user.service';
-import { WINDOW_PROVIDERS } from './window.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,7 @@ import { WINDOW_PROVIDERS } from './window.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [ChatService, GroupService, UserService, WINDOW_PROVIDERS],
+  providers: [ChatService, GroupService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
