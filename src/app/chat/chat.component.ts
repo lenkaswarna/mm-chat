@@ -17,7 +17,6 @@ import { SocketService } from '../socket.service';
 export class ChatComponent implements OnInit, AfterViewChecked {
 
   @Input() user: User;
-  private newUsers = [];
   private groups: Group[] = [];
   private users: User[] = [];
   private messages: Message[] = [];
@@ -35,9 +34,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private fb: FormBuilder,
     private chatService: ChatService,
     private groupService: GroupService,
-    private socketService: SocketService,
     private route: ActivatedRoute,
     private location: Location,
+    private socketService: SocketService
   ) {
   }
 
@@ -65,38 +64,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       },
       lastUpdateTime: Date.now()
     });
-    // this.socketService.reciveMessages(message);
   }
 
- /* onkeydown(event) {
-    if (!(event.ctrlKey || event.metaKey || event.altKey)) {
-        // $currentInput.focus();
-        if (event == 13) {
-            if (userId) {
-             this.socketService.stopeTyping();
-              this.typing = false;
-            }else {
-               console.log('this is not a vlid id');
-            }
-
-        }
-      }
-   }
-   onKey(event) {
-     if ( !this.typing) {
-       this.typing = true;
-      this.socketService.typing();
-     }
-     this.lastTypingTime = (new Date()).getTime();
-     setTimeout(function(){
-      this.typingTimer = (new Date()).getTime();
-      this.timeDiff = this.lastTypingTime - this.typingTimer;
-      if (this.timeDiff >= this.typingTimerLength && this.typing) {
-        this.socketService.stopeTyping();
-        this.typing = false;
-      }
-     }, this.typingTimerLength);
-   }*/
   ngAfterViewChecked() {
     // this.scrollToBottom();
   }
@@ -111,30 +80,22 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     if (!result) {
       return;
     } else {
-     // this.messages.push(value);
       this.chatService.sendMessage(value)
         .subscribe(msg => { this.messages.push(msg); console.log(msg); });
-        this.socketService.sendMessage(value);
     }
     this.message.reset();
   }
 
   getGroup() {
     const userId = +this.route.snapshot.paramMap.get('userId');
-    if (userId == null) {
-      console.log('give correct userdetails');
-    } else {
-      // connecting to socket service.
-      this.socketService.connSocket(userId);
     this.groupService.getGroups(userId)
       .subscribe(groups => this.groups = groups);
   }
-}
 
   getMessage(groupId) {
     this.chatService.setGroupId(groupId);
     const userId = +this.route.snapshot.paramMap.get('userId');
-    const size = 5;
+    const size = 20;
     if (this.oldGroupId === groupId) {
       this.chatService.getMessages(userId, groupId, this.offset, size)
         .subscribe((msg) => {
@@ -143,7 +104,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
           });
           this.socketService.joinGroup(groupId);
          this.socketService.getMessages();
-        
         });
     } else {
       this.messages = [];
