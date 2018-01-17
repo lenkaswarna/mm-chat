@@ -23,6 +23,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   private messages: Message[] = [];
   private message: FormGroup;
   private groupId: number;
+  private socketMessage: Message[] = [];
   private typingTimerLength= 500;
   private typing = false ;
   private lastTypingTime;
@@ -141,7 +142,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             this.messages.push(message);
           });
           this.socketService.joinGroup(groupId);
-      this.socketService.getMessages();
+         this.socketService.getMessages();
+        
         });
     } else {
       this.messages = [];
@@ -152,8 +154,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
           msg.reverse().map((message) => {
             this.messages.push(message);
           });
-          this.socketService.joinGroup(groupId);
-      this.socketService.getMessages();
+          // this.socketService.joinGroup(groupId);
+         // this.socketService.getMessages();
         });
     }
   }

@@ -33,10 +33,10 @@ export class SocketService {
     getMessages() {
         this.socket.on('recive-message', message => {
             console.log('message is recived' + message.text);
-            this.socket.emit('recive-message', message);
+            this.socket.emit('recive-message', message.text);
         });
     }
-    typing(){
+    typing() {
         this.socket.emit('typing');
     }
     stopTyping() {
