@@ -7,6 +7,7 @@ import { Message } from '../interfaces/message';
 import { User } from '../interfaces/user';
 import { ChatService } from '../chat.service';
 import { GroupService } from '../group.service';
+import { SocketService } from '../socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -20,6 +21,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   private users: User[] = [];
   private messages: Message[] = [];
   private message: FormGroup;
+  private groupId: number;
+  private socketMessage: Message[] = [];
+  private typingTimerLength= 500;
+  private typing = false ;
+  private lastTypingTime;
+  private typingTimer;
+  private timeDiff;
   private oldGroupId = 1;
   private offset = 0;
   constructor(
@@ -27,7 +35,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private chatService: ChatService,
     private groupService: GroupService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private socketService: SocketService
   ) {
   }
 
@@ -93,6 +102,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
           msg.reverse().map((message) => {
             this.messages.push(message);
           });
+          this.socketService.joinGroup(groupId);
+         this.socketService.getMessages();
         });
     } else {
       this.messages = [];
@@ -103,6 +114,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
           msg.reverse().map((message) => {
             this.messages.push(message);
           });
+          // this.socketService.joinGroup(groupId);
+         // this.socketService.getMessages();
         });
     }
   }
